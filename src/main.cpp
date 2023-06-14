@@ -5,24 +5,26 @@
 
 #define DHT_PIN     2
 #define DHT_TYPE    DHT11
+#define DHT_TAG     0x73
 
 typedef struct {
+    uint8_t tag;
     uint8_t temperature;
     uint8_t humidity;
     uint8_t heatIndex;
 } DHTData;
 
+DHTData data = { DHT_TAG, 0, 0, 0 };
+
 DHT dht(DHT_PIN, DHT_TYPE);
 SoftwareSerial interface(10, 11); // RX, TX
 
-void setup() {  
+void setup() {
     interface.begin(115200);
     dht.begin();
 }
 
 void loop() {
-    DHTData data;
-
     data.temperature = dht.readTemperature();
     data.humidity = dht.readHumidity();
 
