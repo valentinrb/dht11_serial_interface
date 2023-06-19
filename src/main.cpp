@@ -13,7 +13,7 @@ typedef struct {
     uint8_t temperature;
     uint8_t humidity;
     uint8_t heatIndex;
-    uint16_t checksum;
+    uint8_t checksum;
 } DHTData;
 
 DHTData data = { DHT_TAG, DHT_TAG, 0, 0, 0, 0 };
@@ -27,6 +27,8 @@ void setup() {
 }
 
 void loop() {
+    uint16_t sum = 0;
+
     data.temperature = dht.readTemperature();
     data.humidity = dht.readHumidity();
 
@@ -39,10 +41,10 @@ void loop() {
         data.heatIndex = 0;
     }
 
-    data.checksum = 0;
-
     for (size_t i = 0; i < sizeof(DHTData); i++) 
-        data.checksum += ((byte*)&data)[i];
+        sum += ((byte*)&data)[i];
+
+    data.checksum = (uint8_t)sum;
 
     for (size_t i = 0; i < sizeof(DHTData); i++) 
         interface.write(((byte*)&data)[i]);
