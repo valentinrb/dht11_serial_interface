@@ -13,9 +13,10 @@ typedef struct {
     uint8_t temperature;
     uint8_t humidity;
     uint8_t heatIndex;
+    uint16_t checksum;
 } DHTData;
 
-DHTData data = { DHT_TAG, DHT_TAG, 0, 0, 0 };
+DHTData data = { DHT_TAG, DHT_TAG, 0, 0, 0, 0 };
 
 DHT dht(DHT_PIN, DHT_TYPE);
 SoftwareSerial interface(10, 11); // RX, TX
@@ -37,6 +38,11 @@ void loop() {
         data.humidity = 0;
         data.heatIndex = 0;
     }
+
+    data.checksum = 0;
+
+    for (size_t i = 0; i < sizeof(DHTData); i++) 
+        data.checksum += ((byte*)&data)[i];
 
     for (size_t i = 0; i < sizeof(DHTData); i++) 
         interface.write(((byte*)&data)[i]);
