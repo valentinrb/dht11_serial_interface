@@ -29,17 +29,16 @@ void loop() {
     data.humidity = dht.readHumidity();
 
     if (!isnan(data.temperature) && !isnan(data.humidity)) 
-    {
         data.heatIndex = dht.computeHeatIndex(data.temperature, data.humidity, false);
-
-        for (size_t i = 0; i < sizeof(DHTData); i++) 
-        {
-          interface.print(((byte*)&data)[i], HEX);
-          interface.print(" ");
-        }
-
-        interface.println();
+    else
+    {
+        data.temperature = 0;
+        data.humidity = 0;
+        data.heatIndex = 0;
     }
 
+    for (size_t i = 0; i < sizeof(DHTData); i++) 
+        interface.print(((byte*)&data)[i], HEX);
+    
     delay(250);
 }
