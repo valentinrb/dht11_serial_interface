@@ -9,12 +9,13 @@
 
 typedef struct {
     uint8_t tag;
+    uint8_t re_tag;
     uint8_t temperature;
     uint8_t humidity;
     uint8_t heatIndex;
 } DHTData;
 
-DHTData data = { DHT_TAG, 0, 0, 0 };
+DHTData data = { DHT_TAG, DHT_TAG, 0, 0, 0 };
 
 DHT dht(DHT_PIN, DHT_TYPE);
 SoftwareSerial interface(10, 11); // RX, TX
