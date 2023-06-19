@@ -38,7 +38,7 @@ void loop() {
     }
 
     for (size_t i = 0; i < sizeof(DHTData); i++) 
-        interface.print(((byte*)&data)[i], HEX);
+        interface.write(((byte*)&data)[i]);
     
     delay(250);
 }
