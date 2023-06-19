@@ -41,7 +41,7 @@ void loop() {
         data.heatIndex = 0;
     }
 
-    for (size_t i = 0; i < sizeof(DHTData); i++) 
+    for (size_t i = 0; i < sizeof(DHTData) - 1; i++) 
         sum += ((byte*)&data)[i];
 
     data.checksum = (uint8_t)sum;
@@ -49,5 +49,5 @@ void loop() {
     for (size_t i = 0; i < sizeof(DHTData); i++) 
         interface.write(((byte*)&data)[i]);
     
-    delay(250);
+    delay(100);
 }
